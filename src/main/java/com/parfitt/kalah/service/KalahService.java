@@ -20,19 +20,15 @@ public class KalahService {
         this.rules = rules;
     }
 
-    public Game makeMove(String gameId, int pitId) {
-        Game game = inMemoryRepository.get(gameId).orElseThrow(GameNotFoundException::new);
-
-        rules.forEach(r -> r.apply(game, pitId));
-
-        return update(game);
-    }
-
     public Game create() {
         return inMemoryRepository.create(new Game());
     }
 
-    private Game update(Game game) {
+    public Game makeMove(String gameId, int pitId) {
+        Game game = inMemoryRepository.read(gameId).orElseThrow(GameNotFoundException::new);
+
+        rules.forEach(r -> r.apply(game, pitId));
+
         return inMemoryRepository.update(game);
     }
 

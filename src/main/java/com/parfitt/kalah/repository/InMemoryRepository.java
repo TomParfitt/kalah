@@ -2,7 +2,6 @@ package com.parfitt.kalah.repository;
 
 import com.parfitt.kalah.model.Game;
 import java.util.Optional;
-import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -18,24 +17,21 @@ public class InMemoryRepository {
         this.repo = new ConcurrentHashMap<>();
     }
 
-    public Optional<Game> get(String gameId) {
+    public Game create(Game game) {
+        long gameId = counter.incrementAndGet();
+        game.setId(gameId);
+
+        repo.put(gameId, game);
+
+        return game;
+    }
+
+    public Optional<Game> read(String gameId) {
         return Optional.of(repo.get(gameId));
     }
 
     public Game update(Game game) {
-        // TODO what if id is null ?
         repo.replace(game.getId(), game);
-        return game;
-    }
-
-    public Game create(Game game) {
-        Random rand = new Random();
-
-        long gameId = counter.incrementAndGet();
-        repo.putIfAbsent(gameId, game);
-
-        game.setId(gameId);
-
         return game;
     }
 

@@ -3,8 +3,10 @@ package com.parfitt.kalah.rules;
 import com.parfitt.kalah.model.Game;
 import com.parfitt.kalah.model.Player;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 @Order(4)
+@Component
 public class DecideOnNextPlayerRule implements Rule {
 
     @Override

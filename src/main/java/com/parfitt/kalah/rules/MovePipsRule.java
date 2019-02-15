@@ -8,8 +8,10 @@ import static com.parfitt.kalah.model.Player.SOUTH;
 import com.parfitt.kalah.model.Game;
 import java.util.Map;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 @Order(2)
+@Component
 public class MovePipsRule implements Rule {
 
     @Override

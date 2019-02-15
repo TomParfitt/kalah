@@ -7,8 +7,10 @@ import com.parfitt.kalah.model.Game;
 import com.parfitt.kalah.model.Player;
 import java.util.Map;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 @Order(5)
+@Component
 public class EndGameRule implements Rule {
 
     @Override

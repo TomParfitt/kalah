@@ -7,8 +7,10 @@ import static com.parfitt.kalah.model.Constants.TOTAL_PITS;
 import com.parfitt.kalah.model.Game;
 import com.parfitt.kalah.model.exceptions.IncorrectPitIdSelectedException;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 @Order(1)
+@Component
 public class ValidateValidMoveRule implements Rule {
 
     @Override

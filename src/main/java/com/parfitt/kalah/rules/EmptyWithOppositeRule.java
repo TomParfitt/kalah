@@ -6,8 +6,10 @@ import static com.parfitt.kalah.model.Constants.TOTAL_PITS;
 import com.parfitt.kalah.model.Game;
 import java.util.Map;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 @Order(3)
+@Component
 public class EmptyWithOppositeRule implements Rule {
 
     @Override

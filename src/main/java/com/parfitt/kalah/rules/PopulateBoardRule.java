@@ -13,8 +13,10 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 @Order(0)
+@Component
 public class PopulateBoardRule implements Rule {
 
     @Override

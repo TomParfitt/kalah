@@ -13,7 +13,7 @@ public abstract class AbstractResponse {
 
     protected String buildLink(long gameId) {
         return ServletUriComponentsBuilder.fromCurrentRequestUri()
-                .replacePath("games/" + Long.toString(gameId))
+                .replacePath("games/" + gameId)
                 .build()
                 .toString();
     }

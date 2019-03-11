@@ -15,11 +15,11 @@ public class ValidateValidMoveRule implements Rule {
 
     @Override
     public void apply(Game game, int pitId) {
-        if (isValidPitId(pitId)) {
+        if (isInvalidPitId(pitId)) {
             throw new IncorrectPitIdSelectedException("Invalid pitId, must be between " + FIRST_PIT + " and " + TOTAL_PITS);
         }
 
-        if (isPlayerPit(game, pitId)) {
+        if (isNotPlayerPit(game, pitId)) {
             throw new IncorrectPitIdSelectedException("Incorrect player pitId");
         }
 
@@ -28,12 +28,12 @@ public class ValidateValidMoveRule implements Rule {
         }
     }
 
-    private boolean isValidPitId(int pitId) {
-        return FIRST_PIT <= pitId && pitId <= TOTAL_PITS;
+    private boolean isInvalidPitId(int pitId) {
+        return pitId < FIRST_PIT || TOTAL_PITS < pitId;
     }
 
-    private boolean isPlayerPit(Game game, int pitId) {
-        return game.getPlayerTurn().getPits().contains(pitId);
+    private boolean isNotPlayerPit(Game game, int pitId) {
+        return !game.getPlayerTurn().getPits().contains(pitId);
     }
 
     private boolean isNoPipsInPit(Game game, int pitId) {

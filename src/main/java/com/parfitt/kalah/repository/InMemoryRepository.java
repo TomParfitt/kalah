@@ -26,7 +26,7 @@ public class InMemoryRepository {
         return game;
     }
 
-    public Optional<Game> read(String gameId) {
+    public Optional<Game> read(Long gameId) {
         return Optional.of(repo.get(gameId));
     }
 

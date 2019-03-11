@@ -24,7 +24,7 @@ public class KalahService {
         return inMemoryRepository.create(new Game());
     }
 
-    public Game makeMove(String gameId, int pitId) {
+    public Game makeMove(Long gameId, int pitId) {
         Game game = inMemoryRepository.read(gameId).orElseThrow(GameNotFoundException::new);
 
         rules.forEach(r -> r.apply(game, pitId));

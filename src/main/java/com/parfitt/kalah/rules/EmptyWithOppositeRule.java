@@ -14,7 +14,6 @@ public class EmptyWithOppositeRule implements Rule {
 
     @Override
     public void apply(Game game, int pitId) {
-        int lastPlacedPitId = game.getLastPlacedPitId();
 
         if (isInPlayerPits(game) && isLastPlacedPitEmpty(game)) {
 
@@ -23,6 +22,7 @@ public class EmptyWithOppositeRule implements Rule {
             int oppositePitId = getOppositePitId(game);
             Integer numInOppositePit = board.get(oppositePitId);
 
+            int lastPlacedPitId = game.getLastPlacedPitId();
             board.put(lastPlacedPitId, EMPTY_PIT);
             board.put(oppositePitId, EMPTY_PIT);
 
@@ -43,9 +43,6 @@ public class EmptyWithOppositeRule implements Rule {
     }
 
     private int getOppositePitId(Game game) {
-        int halfOfBoard = TOTAL_PITS / 2;
-        return game.getLastPlacedPitId() > halfOfBoard ?
-                game.getLastPlacedPitId() - halfOfBoard :
-                game.getLastPlacedPitId() + halfOfBoard;
+        return TOTAL_PITS - game.getLastPlacedPitId();
     }
 }

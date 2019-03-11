@@ -23,6 +23,7 @@ public class PopulateBoardRule implements Rule {
     public void apply(Game game, int pitId) {
         if (game.getBoard() == null) {
             populateBoard(game);
+            game.setPlayerTurn(NORTH);
         }
     }
 

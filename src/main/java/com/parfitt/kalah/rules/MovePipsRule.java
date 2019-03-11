@@ -1,5 +1,6 @@
 package com.parfitt.kalah.rules;
 
+import static com.parfitt.kalah.model.Constants.EMPTY_PIT;
 import static com.parfitt.kalah.model.Constants.FIRST_PIT;
 import static com.parfitt.kalah.model.Constants.TOTAL_PITS;
 import static com.parfitt.kalah.model.Player.NORTH;
@@ -7,6 +8,8 @@ import static com.parfitt.kalah.model.Player.SOUTH;
 
 import com.parfitt.kalah.model.Game;
 import java.util.Map;
+
+import com.parfitt.kalah.model.Player;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -19,18 +22,21 @@ public class MovePipsRule implements Rule {
         Map<Integer, Integer> board = game.getBoard();
 
         Integer numOfPips = board.get(pitId);
+        board.put(pitId, EMPTY_PIT);
 
+        int nextPitId = pitId;
         for (int i = 0; i < numOfPips; i++) {
-            int nextPitId = getNextValidPitId(pitId);
+            nextPitId = getNextValidPitId(game, nextPitId);
             int nextPitValue = board.get(nextPitId) + 1;
             board.put(nextPitId, nextPitValue);
             game.setLastPlacedPitId(nextPitId);
         }
     }
 
-    private int getNextValidPitId(final int pitId) {
+    private int getNextValidPitId(final Game game, final int pitId) {
         int nextPit = incrementPitId(pitId);
-        return nextPit == NORTH.getHome() || nextPit == SOUTH.getHome() ? incrementPitId(nextPit) : nextPit;
+        Player oppositePlayer = game.getPlayerTurn().getOppositePlayer();
+        return nextPit == oppositePlayer.getHome() ? incrementPitId(nextPit) : nextPit;
     }
 
     private int incrementPitId(int pitId) {

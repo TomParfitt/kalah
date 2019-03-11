@@ -16,7 +16,7 @@ public enum Player {
 
     Player(int home) {
         this.home = home;
-        this.pits = IntStream.rangeClosed(home - 7, home - 1).boxed().collect(Collectors.toSet());
+        this.pits = IntStream.rangeClosed(home - 6, home - 1).boxed().collect(Collectors.toSet());
     }
 
     public Player getOppositePlayer() {

@@ -54,7 +54,7 @@ public class KalahControllerTest {
         // Then
         MockHttpServletResponse response = result.getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
-        assertThat(response.getContentAsString()).isEqualTo("{\"id\":\"1234\",\"uri\":\"http://localhost/games/1234\"}");
+        assertThat(response.getContentAsString()).isEqualTo("{\"uri\":\"http://localhost/games/1234\",\"id\":\"1234\"}");
     }
 
     @Test
@@ -63,7 +63,7 @@ public class KalahControllerTest {
         Game game = new Game();
         game.setId(1234L);
         game.setBoard(mockBoard());
-        given(kalahService.makeMove("1234", 2)).willReturn(game);
+        given(kalahService.makeMove(1234L, 2)).willReturn(game);
         MockHttpServletRequestBuilder request = put("/games/1234/pits/2").contentType(MediaType.APPLICATION_JSON);
 
         // When
@@ -73,9 +73,9 @@ public class KalahControllerTest {
         MockHttpServletResponse response = result.getResponse();
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).isEqualTo(
-                "{\"id\":\"1234\","
-                        + "\"status\":{\"1\":\"4\",\"2\":\"4\",\"3\":\"4\",\"4\":\"4\",\"5\":\"4\",\"6\":\"4\",\"7\":\"0\",\"8\":\"4\",\"9\":\"4\",\"10\":\"4\",\"11\":\"4\",\"12\":\"4\",\"13\":\"4\",\"14\":\"0\"},"
-                        + "\"url\":\"http://localhost/games/1234\"}");
+                "{\"status\":{\"1\":\"4\",\"2\":\"4\",\"3\":\"4\",\"4\":\"4\",\"5\":\"4\",\"6\":\"4\",\"7\":\"0\",\"8\":\"4\",\"9\":\"4\",\"10\":\"4\",\"11\":\"4\",\"12\":\"4\",\"13\":\"4\",\"14\":\"0\"}," +
+                        "\"url\":\"http://localhost/games/1234\"," +
+                        "\"id\":\"1234\"}");
     }
 
     private Map<Integer, Integer> mockBoard() {

@@ -3,7 +3,7 @@ package com.parfitt.kalah.model.responses;
 import com.parfitt.kalah.model.Game;
 import java.util.Map;
 
-public class MakeMoveResponseAdapter extends AbstractResponse{
+public class MakeMoveResponseAdapter extends AbstractResponse {
 
     public MakeMoveResponseAdapter(Game game) {
         super(game);

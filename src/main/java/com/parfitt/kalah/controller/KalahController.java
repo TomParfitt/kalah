@@ -32,7 +32,7 @@ public class KalahController {
     }
 
     @PutMapping("{gameId}/pits/{pitId}")
-    public ResponseEntity<MakeMoveResponseAdapter> makeMove(@PathVariable  String gameId, @PathVariable int pitId) {
+    public ResponseEntity<MakeMoveResponseAdapter> makeMove(@PathVariable Long gameId, @PathVariable int pitId) {
         Game game = kalahService.makeMove(gameId, pitId);
         MakeMoveResponseAdapter makeMoveResponseAdapter = new MakeMoveResponseAdapter(game);
         return new ResponseEntity(makeMoveResponseAdapter, HttpStatus.OK);

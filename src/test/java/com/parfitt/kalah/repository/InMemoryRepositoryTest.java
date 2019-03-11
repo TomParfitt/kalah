@@ -11,11 +11,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class InMemoryRepositoryTest {
 
-    private InMemoryRepository inMemoryRepository;
+    private GameRepository gameRepository;
 
     @Before
     public void setup() {
-        inMemoryRepository = new InMemoryRepository();
+        gameRepository = new InMemoryRepository();
     }
 
     @Test
@@ -24,7 +24,7 @@ public class InMemoryRepositoryTest {
         Game game = new Game();
 
         // When
-        Game createdGame = inMemoryRepository.create(game);
+        Game createdGame = gameRepository.create(game);
 
         // Then
         assertThat(createdGame).extracting(Game::getId).isNotNull();
@@ -34,10 +34,10 @@ public class InMemoryRepositoryTest {
     public void read_withGameExistingForId_returnsGame() {
         // Given
         Game game = new Game();
-        Game createdGame = inMemoryRepository.create(game);
+        Game createdGame = gameRepository.create(game);
 
         // When
-        Optional<Game> readGame = inMemoryRepository.read(createdGame.getId());
+        Optional<Game> readGame = gameRepository.read(createdGame.getId());
 
         // Then
         assertThat(readGame).get().isEqualTo(createdGame);
@@ -47,17 +47,17 @@ public class InMemoryRepositoryTest {
     public void update_withNewGame_returnsUpdatedGameAndSavesToRepo() {
         // Given
         Game game = new Game();
-        Game createdGame = inMemoryRepository.create(game);
+        Game createdGame = gameRepository.create(game);
         Game updatedGame = new Game();
         updatedGame.setPlayerTurn(NORTH);
         updatedGame.setId(createdGame.getId());
 
         // When
-        Game returnedUpdatedGame = inMemoryRepository.update(updatedGame);
+        Game returnedUpdatedGame = gameRepository.update(updatedGame);
 
         // Then
         assertThat(returnedUpdatedGame).isEqualTo(updatedGame);
-        Optional<Game> readGame = inMemoryRepository.read(returnedUpdatedGame.getId());
+        Optional<Game> readGame = gameRepository.read(returnedUpdatedGame.getId());
         assertThat(readGame).get().isEqualTo(returnedUpdatedGame);
 
     }

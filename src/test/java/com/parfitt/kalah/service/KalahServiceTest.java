@@ -2,7 +2,7 @@ package com.parfitt.kalah.service;
 
 import com.parfitt.kalah.model.Game;
 import com.parfitt.kalah.model.exceptions.GameNotFoundException;
-import com.parfitt.kalah.repository.InMemoryRepository;
+import com.parfitt.kalah.repository.GameRepository;
 import com.parfitt.kalah.rules.Rule;
 import org.junit.Before;
 import org.junit.Test;
@@ -38,7 +38,7 @@ public class KalahServiceTest {
     private ArgumentCaptor<Game> gameCaptor3;
 
     @Mock
-    private InMemoryRepository inMemoryRepository;
+    private GameRepository gameRepository;
 
     @Mock
     private KalahService kalahService;
@@ -54,7 +54,7 @@ public class KalahServiceTest {
     @Before
     public void setUp() {
         rules = asList(rule1, rule2);
-        kalahService = new KalahService(inMemoryRepository, rules);
+        kalahService = new KalahService(gameRepository, rules);
     }
 
     @Test
@@ -63,8 +63,8 @@ public class KalahServiceTest {
         kalahService.create();
 
         // Then
-        then(inMemoryRepository).should().create(gameCaptor1.capture());
-        then(inMemoryRepository).shouldHaveNoMoreInteractions();
+        then(gameRepository).should().create(gameCaptor1.capture());
+        then(gameRepository).shouldHaveNoMoreInteractions();
         then(rule1).shouldHaveZeroInteractions();
         then(rule2).shouldHaveZeroInteractions();
 
@@ -75,7 +75,7 @@ public class KalahServiceTest {
     @Test
     public void makeMove_withNotFoundGameId_returnsException() {
         // Given
-        given(inMemoryRepository.read(anyLong())).willReturn(Optional.empty());
+        given(gameRepository.read(anyLong())).willReturn(Optional.empty());
         long gameId = 1L;
 
         // When
@@ -84,8 +84,8 @@ public class KalahServiceTest {
                 .withNoCause();
 
         // Then
-        then(inMemoryRepository).should().read(gameId);
-        then(inMemoryRepository).shouldHaveNoMoreInteractions();
+        then(gameRepository).should().read(gameId);
+        then(gameRepository).shouldHaveNoMoreInteractions();
         then(rule1).shouldHaveZeroInteractions();
         then(rule2).shouldHaveZeroInteractions();
     }
@@ -96,17 +96,17 @@ public class KalahServiceTest {
         long gameId = 1L;
         int pitId = 1;
         Game game = mock(Game.class);
-        given(inMemoryRepository.read(anyLong())).willReturn(Optional.of(game));
-        given(inMemoryRepository.update(any(Game.class))).willReturn(game);
+        given(gameRepository.read(anyLong())).willReturn(Optional.of(game));
+        given(gameRepository.update(any(Game.class))).willReturn(game);
 
         // When
         kalahService.makeMove(gameId, pitId);
 
         // Then
-        then(inMemoryRepository).should().read(gameId);
+        then(gameRepository).should().read(gameId);
         then(rule1).should().apply(gameCaptor1.capture(), eq(pitId));
         then(rule2).should().apply(gameCaptor2.capture(), eq(pitId));
-        then(inMemoryRepository).should().update(gameCaptor3.capture());
+        then(gameRepository).should().update(gameCaptor3.capture());
 
         assertThat(gameCaptor1.getValue()).isEqualTo(game);
         assertThat(gameCaptor2.getValue()).isEqualTo(game);
